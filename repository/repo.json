@@ -1,6 +1,6 @@
 {
     "name": "Nutrition",
-    "description": "Display the current weather conditions",
+    "description": "Get nutrition data from nutritionix",
     "version": "1.1",
     "default_enable": ["Nutrition"],
     "homepage": "https://github.com/datamachine/telegram-pybot-nutrition",
