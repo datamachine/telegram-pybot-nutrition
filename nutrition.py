@@ -12,19 +12,24 @@ class NutritionPlugin(plugintypes.TelegramPlugin):
         "!nutr <foods>: Get nutrition info",
     ]
 
+    config_options = {
+        "api_id": "API ID, obtain at http://www.nutritionix.com/",
+        "api_key": "API Key, obtain at http://www.nutritionix.com/",
+    }
+
     def activate_plugin(self):
-        if not self.has_option("api id"):
-            self.write_option("api id", "")
-        if not self.has_option("api key"):
-            self.write_option("api key", "")
+        if not self.has_option("api_id"):
+            self.write_option("api_id", "")
+        if not self.has_option("api_key"):
+            self.write_option("api_key", "")
 
     def run(self, msg, matches):
-        if self.read_option("api id") == "":
+        if self.read_option("api_id") == "":
             return "API information not set in plugins.conf, Get them from https://developer.nutritionix.com/"
         url = 'https://apibeta.nutritionix.com/v2/natural'
         headers = {
-                "X-APP-ID": self.read_option("api id"),
-                "X-APP-KEY": self.read_option("api key"),
+                "X-APP-ID": self.read_option("api_id"),
+                "X-APP-KEY": self.read_option("api_key"),
                 "Content-Type": "text/plain"
         }
         data = matches.group(1).encode('utf-8')
