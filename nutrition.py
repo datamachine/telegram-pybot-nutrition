@@ -1,9 +1,9 @@
-import plugintypes
+from telegrambot.plugin import TelegramPlugin
 import urllib
 import json
 
 
-class NutritionPlugin(plugintypes.TelegramPlugin):
+class NutritionPlugin(TelegramPlugin):
     patterns = [
         "^!nutr (.*)"
     ]
