@@ -1,9 +1,9 @@
-from telegrambot.plugin import TelegramPlugin
+from telex.plugin import TelexPlugin
 import urllib
 import json
 
 
-class NutritionPlugin(TelegramPlugin):
+class NutritionPlugin(TelexPlugin):
     patterns = [
         "^!nutr (.*)"
     ]

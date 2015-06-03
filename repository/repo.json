@@ -3,7 +3,7 @@
     "description": "Get nutrition data from nutritionix",
     "version": "1.1",
     "default_enable": ["Nutrition"],
-    "homepage": "https://github.com/datamachine/telegram-pybot-nutrition",
-    "repo": "https://github.com/datamachine/telegram-pybot-nutrition.git",
+    "homepage": "https://github.com/datamachine/telex-nutrition",
+    "repo": "https://github.com/datamachine/telex-nutrition.git",
     "branch": "master"
 }
