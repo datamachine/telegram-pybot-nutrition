@@ -5,11 +5,11 @@ import json
 
 class NutritionPlugin(TelexPlugin):
     patterns = [
-        "^!nutr (.*)"
+        "^{prefix}nutr (.*)"
     ]
 
     usage = [
-        "!nutr <foods>: Get nutrition info",
+        "{prefix}nutr <foods>: Get nutrition info",
     ]
 
     config_options = {
@@ -39,22 +39,25 @@ class NutritionPlugin(TelexPlugin):
             with urllib.request.urlopen(req) as response:
                 jdata = json.loads(response.read().decode('utf-8'))
 
-                nutrition = { nutr['usda_tag']: "{:.2f} {}".format(nutr['value'], nutr['unit']) for nutr in
-                    jdata['total']['nutrients'] }
+                try:
+                    nutrition = { nutr['usda_tag']: "{:.2f} {}".format(nutr['value'], nutr['unit']) for nutr in
+                        jdata['total']['nutrients'] }
 
-                return '{name} ({weight} g): {kcal}, Fat: {fat} (PUF: {puf}, MUF: {mf}, SF: {sf}), Protein: {protein}\n Total Carbs: {carbs}, Sugar: {sugar}, Fiber: {fiber}'.format(
-                    name=matches.group(1),
-                    kcal=nutrition['ENERC_KCAL'],
-                    weight=jdata['total']['serving_weight_grams'],
-                    fat=nutrition['FAT'],
-                    puf=nutrition['FAPU'],
-                    mf=nutrition['FAMS'],
-                    sf=nutrition['FASAT'],
-                    protein=nutrition['PROCNT'],
-                    carbs=nutrition['CHOCDF'],
-                    sugar=nutrition['SUGAR'],
-                    fiber=nutrition['FIBTG'],
-                )
+                    return '{name} ({weight} g): {kcal}, Fat: {fat} (PUF: {puf}, MUF: {mf}, SF: {sf}), Protein: {protein}\n Total Carbs: {carbs}, Sugar: {sugar}, Fiber: {fiber}'.format(
+                        name=matches.group(1),
+                        kcal=nutrition['ENERC_KCAL'],
+                        weight=jdata['total']['serving_weight_grams'],
+                        fat=nutrition['FAT'],
+                        puf=nutrition['FAPU'],
+                        mf=nutrition['FAMS'],
+                        sf=nutrition['FASAT'],
+                        protein=nutrition['PROCNT'],
+                        carbs=nutrition['CHOCDF'],
+                        sugar=nutrition['SUGAR'],
+                        fiber=nutrition['FIBTG'],
+                    )
+                except TypeError:
+                    return 'Data not found for {name}'.format(name=matches.group(1))
         except urllib.error.HTTPError as err:
             jerr = json.loads(err.read().decode('utf-8'))
             return "Error looking up food: {}".format(jerr['errors'][0]['message'])
